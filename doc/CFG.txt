@@ -1,0 +1,35 @@
+<program>	->	<dec><program>|^
+<dec>		->	<type>ident<dectail>|semicon|rsv_extern<type>ident semicon
+<type>		->	rsv_void|rsv_int|rsv_char
+<dectail>	->	semicon|<varlist>semicon|lparen<para>rparen<funtail>
+<funtail>	->	<block>|semicon
+<varlist>	->	comma ident<varlist>|^
+<para>		->	<type>ident<paralist>|^
+<paralist>	->	comma<type>ident<paralist>|^
+
+<block>		->	lbrac<childprogram>rbrac
+<childprogram>	->	<localdec><childprogram>|<statements><childprogram>|^
+<localdec>	->	<type>ident<lcoaldectail>semicon
+<localvartail>	->	comma ident<localvartail>|^
+
+<statement>	->	ident<idtail>semicon|<whilestat>|<ifstat>|<retstat>|semicon
+			|rsv_break semicon|rsv_continue semicon
+			|rsv_in input<ident>semicon|rsv_out output<expr>semicon
+<whilestat>	->	rsv_while lparen<expr>rparen<block>
+<ifstat>	->	rsv_if lparen<expr>rparen<block>rsv_else<block>
+<retstat>	->	rsv_return<returntail>semicon
+<returntail>	->	<expr>|^
+<idtail>	->	assign<exp>|lparen<realarg>rparen
+<realarg>	->	<expr><arglist>|^
+<arglist>	->	comma<expr><arglist>|^
+
+<expr>		->	<aloexp><exptail>
+<exptail>	->	<cmps><expr>|^
+<cmps>		->	gt|ge|ls|le|equ|nequ
+<aloexp>	->	<item><itemtail>
+<itemtail>	->	<adds><aloexp>|^
+<adds>		->	add|sub
+<item>		->	<factor><factortail>
+<factortail>	->	<muls><item>|^
+<factor>	->	ident<idtail>|number|chara|lparen<expr>rparen|string
+<muls>		->	mul|div

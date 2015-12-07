@@ -1,0 +1,15 @@
+<program>	->	ident<lbtail><program>|<inst><program>|a_sec ident<program>|a_glb ident <program>
+<lbtail>	->	a_times number<basetail>|<basetail>|a_equ number|colon
+<basetail>	->	<len><values>
+<len>		->	a_db|a_dw|a_dd
+<values>	->	<type><valtail>
+<type>		->	number|strings|ident|<off>number
+<valtail>	->	comma<type><valtail>|^
+<inst>		->	i_mov...i_lea <opr>,<opr>|i_call...i_pop <opr>|i_ret
+<opr>		->	number|<reg>|<mem>|ident
+<reg>		->	br_al...br_ch|dr_eax...dr_edi
+<mem>		->	lbarc <addr> rbrac
+<addr>		->	number|ident|<reg><regaddr>
+<regaddr>	->	<off><regaddrtail>|^
+<off>		->	addi|subs
+<regaddrtail>	->	number|<reg>
