@@ -3,11 +3,11 @@ a C-like compiling system including compiler, assembler and linker on x86 and AR
 
 ## 分支与代码说明
 
-* x86分支
+* [x86分支](https://github.com/fanzhidongyzby/cit/tree/x86)
 
 该分支实现了基于x86体系结构的编译器、汇编器和链接器，编译器处理的文法比较简单，属于书中编译器代码的早起版本。汇编器和链接器的代码与书中代码基本一致。
 
-* arm分支
+* [arm分支](https://github.com/fanzhidongyzby/cit/tree/arm)
 
 该分支实现了基于arm体系结构的优化编译器，编译器文法较为复杂，与书中代码基本基本一致。
 
