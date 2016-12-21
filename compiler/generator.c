@@ -195,7 +195,7 @@ var_record* genExp(var_record*p_factor1,symbol opp,var_record*p_factor2,int &var
 	  else if(p_factor2->strValId==0)
 	  {
 	    fprintf(fout,"\tmov eax,[@s_esp]\n\tmov [@s_esp],esp\n\tmov esp,eax\n");//esp<=>[@s_esp]
-	    fprintf(fout,"\tmov eax,0\n\tsub esp,1\n\tmov [esp],al;长度压入后再压入数据栈\n",p_factor2->strValId);
+	    fprintf(fout,"\tmov eax,0\n\tsub esp,1\n\tmov [esp],al;长度压入后再压入数据栈\n");
 	    fprintf(fout,"\tmov [ebp%d],esp\n",pRec->localAddr);//存入数据指针
 	    fprintf(fout,"\tmov eax,[@s_esp]\n\tmov [@s_esp],esp\n\tmov esp,eax\n");//esp<=>[@s_esp]
 	  }
@@ -350,7 +350,7 @@ var_record* genExp(var_record*p_factor1,symbol opp,var_record*p_factor2,int &var
 	    fprintf(fout,"\tcall @str2long\n");
 
 	    fprintf(fout,"%s:\n",labLop.c_str());
-	    fprintf(fout,"\tcmp ecx,-1\n",p_factor1->strValId);
+	    fprintf(fout,"\tcmp ecx,-1\n");
 	    fprintf(fout,"\tje %s\n",labExt.c_str());
 	    fprintf(fout,"\tmov al,[esi+ecx]\n");
 	    fprintf(fout,"\tsub esp,1\n\tmov [esp],al\n");
@@ -386,7 +386,7 @@ var_record* genExp(var_record*p_factor1,symbol opp,var_record*p_factor2,int &var
 	    fprintf(fout,"\tcall @str2long\n");
 
 	    fprintf(fout,"%s:\n",labLop.c_str());
-	    fprintf(fout,"\tcmp ecx,-1\n",p_factor1->strValId);
+	    fprintf(fout,"\tcmp ecx,-1\n");
 	    fprintf(fout,"\tje %s\n",labExt.c_str());
 	    fprintf(fout,"\tmov al,[esi+ecx]\n");
 	    fprintf(fout,"\tsub esp,1\n\tmov [esp],al\n");

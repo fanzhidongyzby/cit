@@ -629,7 +629,7 @@ void Table::over()//进行最后的处理
      	fprintf(fout,"\"\"");
      fprintf(fout,"\n");
     //fprintf(fout,"\t@str_%d db \"%s\"\n",i+1,stringTable[i]->c_str());
-    fprintf(fout,"\t@str_%d_len equ %d\n",i+1,stringTable[i]->length());
+    fprintf(fout,"\t@str_%d_len equ %d\n",i+1,(int)stringTable[i]->length());
   }
   
 
