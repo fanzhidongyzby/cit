@@ -439,7 +439,7 @@ void Linker::exportElf(const char*dir)
 		if(segNames[i]!=".bss")
 		{
 			Block*old=NULL;
-			char instPad[1]={0x90};
+			char instPad[1]={(char)0x90};
 			for(int j=0;j<sl->blocks.size();++j)
 			{
 				Block*b=sl->blocks[j];
