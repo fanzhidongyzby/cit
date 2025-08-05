@@ -21,10 +21,6 @@
 #ifndef _ELF_H
 #define	_ELF_H 1
 
-#include <features.h>
-
-__BEGIN_DECLS
-
 /* Standard ELF types.  */
 
 #include <stdint.h>
@@ -2724,7 +2720,5 @@ typedef Elf32_Addr Elf32_Conflict;
 #define R_M32R_GOTOFF_LO	64	/* Low 16 bit offset to GOT */
 #define R_M32R_NUM		256	/* Keep this the last entry. */
 
-
-__END_DECLS
 
 #endif	/* elf.h */

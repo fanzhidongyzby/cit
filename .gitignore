@@ -2,3 +2,6 @@ ass/ass
 cit
 compiler/compiler
 lit/lit
+*.o
+.*
+work/*

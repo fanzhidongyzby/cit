@@ -19,8 +19,8 @@ void regaddr(symbol basereg,const int type);
 void regaddrtail(symbol basereg,const int type,symbol sign);
 void off();
 
-int wait=0;//指导nextToken是否继续取符号，每次设置只能作用一次
-#define BACK wait=1;
+int wait_flag=0;//指导nextToken是否继续取符号，每次设置只能作用一次
+#define BACK wait_flag=1;
 /**
   读取下一个有效的符号，testSym[]作为测试观察使用
   返回值:编译结束返回-1，一般情况现返回0.
@@ -30,9 +30,9 @@ string curSeg="";//当前段名称
 int dataLen=0;//有效数据长度
 int nextToken()
 {
-  if(wait==1)
+  if(wait_flag==1)
   {
-    wait=0;//还原
+    wait_flag=0;//还原
     return 0;
   }
   int flag=0;

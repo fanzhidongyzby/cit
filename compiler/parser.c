@@ -51,8 +51,8 @@ char symName[][30]=
   ,""
 };
 enum symbol oldtoken=null,token=null;//记录最近两个token
-int wait=0;//指导nextToken是否继续取符号，每次设置只能作用一次
-#define BACK wait=1;
+int wait_flag=0;//指导nextToken是否继续取符号，每次设置只能作用一次
+#define BACK wait_flag=1;
 int identinexpr=0;//指示标识符是否单独出现在表达式中
 
 void synterror(enum errcode err,int pos);
@@ -64,9 +64,9 @@ void synterror(enum errcode err,int pos);
 
 int nextToken()
 {
-  if(wait==1)
+  if(wait_flag==1)
   {
-    wait=0;//还原
+    wait_flag=0;//还原
     return 0;
   }
   int flag=0;
