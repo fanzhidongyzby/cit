@@ -14,6 +14,30 @@ CopyPropagation::CopyPropagation(DFG*g):dfg(g)
 			copyExpr.push_back(inst);//记录复写表达式
 		}
 	}
+	// 初始化并查集
+	int index = 0;
+    for (int i = 0; i < copyExpr.size(); ++i){
+        InterInst*inst = copyExpr[i]; // 遍历指令
+        Var*rs=inst->getResult();   // 获取结果
+        Var*arg1=inst->getArg1();
+        if (varToIndex.find(rs)==varToIndex.end())
+            varToIndex[rs]=index++;
+        if (varToIndex.find(arg1)==varToIndex.end())
+            varToIndex[arg1]=index++;
+    }
+    uf.resize(index);
+    for (int i = 0; i < index; ++i){
+        uf[i]=i;
+    }
+	// 将变量连接到到一个联通分量中(比如a=b;c=a; a,b,c就会都被放入同一个连通分量)
+    for (int i = 0; i < copyExpr.size(); ++i){
+        InterInst*inst=copyExpr[i]; // 遍历指令
+        Var*rs=inst->getResult();   // 获取结果
+        Var*arg1=inst->getArg1();
+        int rsIndex=varToIndex[rs];
+        int arg1Index=varToIndex[arg1];
+        uf[findParent(rsIndex)]=findParent(arg1Index);
+    }
 	U.init(copyExpr.size(),1);//初始化基本集合,全集
 	E.init(copyExpr.size(),0);//初始化基本集合,空集
 	//初始化指令的指令的gen和kill集合
@@ -27,18 +51,39 @@ CopyPropagation::CopyPropagation(DFG*g):dfg(g)
 			inst->copyInfo.kill=U;//杀死所有表达式
 		}
 		else if(op>=OP_AS&&op<=OP_GET){//其他所有的表达式
+		    int rsParent = findParent(varToIndex[rs]);
 			for(unsigned int i=0;i<copyExpr.size();i++){//扫描所有复写表达式
 				if(copyExpr[i]==inst){//产生表达式
 					inst->copyInfo.gen.set(i);//产生了复写表达式，设置产生标记
 				}
 				else{//杀死表达式
-					if(rs==copyExpr[i]->getResult()||rs==copyExpr[i]->getArg1()){
-						inst->copyInfo.kill.set(i);//设置杀死复写表达式标记
-					}
+				    /*
+					    int add(int n) {
+                            int a, b;
+                            b = n; a = b; n = 3;
+                            return a;
+                        }
+						考虑上面的代码如果在对n=3进行复写传播时只是简单的只将`b = n`杀死的话那么在对`return a`进行覆写传播时
+						就会复用本应该被杀死的语句`a = b`(先前已被复写传播简化为a = n)导致`return a`中的a会被替换为字面量3
+						这明显是错误的，所以我们在这里保守的杀死一个联通分量中的所有语句。
+					*/
+                    if (rsParent==findParent(varToIndex[copyExpr[i]->getResult()])){
+                        inst->copyInfo.kill.set(i); // 设置杀死复写表达式标记
+                    }
 				}
 			}
 		}
 	}
+}
+
+/*
+    查找一个变量所属的联通分量
+*/
+int CopyPropagation::findParent(int x)
+{
+    if (uf[x] == x)
+        return x;
+    return uf[x] = findParent(uf[x]);
 }
 
 /*
