@@ -8,7 +8,7 @@ depend:
 	@$(CC) -MM $(SRC) > .depend
 -include .depend
 $(EXE):$(OBJ)
-	$(CC) $(OBJ) -o $(EXE) 
+	$(CC) $(OBJ) -o $(EXE)
 clean:
-	@rm $(EXE) $(OBJ) .depend -f
+	@rm -f $(EXE) $(OBJ) .depend
 

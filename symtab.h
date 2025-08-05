@@ -14,7 +14,7 @@ class SymTab
 	//hash函数
 	struct string_hash{
 		size_t operator()(const string& str) const{
-			return __stl_hash_string(str.c_str());
+			return std::hash<std::string>{}(str);
 		}
 	};
 	//内部数据结构
